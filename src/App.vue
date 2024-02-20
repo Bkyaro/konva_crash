@@ -3,9 +3,10 @@
     <div class="tab-wrapper">
       <div
         class="tab"
-        v-for="(item, index) in tabs"
+        v-for="item in tabs"
         v-bind:class="{ active: item.active }"
         v-on:click="handleClick"
+        :key="item.id"
       >
         {{ item.name.replace("Shape", " Shape") }}
       </div>
@@ -30,9 +31,9 @@ export default {
     return {
       targetComponent: `RectShape`,
       tabs: [
-        { name: "RectShape", active: true },
-        { name: "CircleShape", active: false },
-        { name: "EllipseShape", active: false },
+        { id: 1, name: "RectShape", active: true },
+        { id: 2, name: "CircleShape", active: false },
+        { id: 3, name: "EllipseShape", active: false },
       ],
     };
   },
@@ -100,7 +101,7 @@ body {
 }
 
 .tab:hover {
-  box-shadow:  0px 0px 3px 2px #fff;
+  box-shadow: 0px 0px 3px 2px #fff;
 }
 
 .preview {
