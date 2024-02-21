@@ -2,7 +2,7 @@
   <div class="konva-wrapper" ref="konvaWrapper">
     <v-stage :config="configKonva">
       <v-layer>
-        <v-circle :config="configCircle"></v-circle>
+        <v-circle :config="configData"></v-circle>
       </v-layer>
     </v-stage>
   </div>
@@ -17,7 +17,7 @@ export default {
         width: 200,
         height: 200,
       },
-      configCircle: {
+      configData: {
         x: 100,
         y: 100,
         radius: 70,
@@ -29,26 +29,31 @@ export default {
   },
   props: ["props"],
   mounted() {
-    this.$emit("filterFromChild", { ...this.configCircle });
-    this.configCircle = {};
+    this.$emit("filterFromChild", { ...this.configData });
+    this.configData = {};
     Object.keys(this.props).forEach((key) => {
       if (this.props[key].show) {
-        this.configCircle[key] = this.props[key].value;
+        this.configData[key] = this.props[key].value;
       }
     });
+    //修改画布大小为所在元素宽高
+    this.configKonva = {
+      width: this.$refs.konvaWrapper.clientWidth,
+      height: this.$refs.konvaWrapper.clientHeight,
+    };
   },
   watch: {
     props: {
       handler(newProps, oldProps) {
-        // 创建一个新对象来更新 configCircle
-        const newConfigCircle = { ...this.configCircle };
+        // 创建一个新对象来更新 configRect
+        const newConfigData = { ...this.configData };
         Object.keys(newProps).forEach((key) => {
           if (newProps[key].show) {
-            newConfigCircle[key] = newProps[key].value;
+            newConfigData[key] = newProps[key].value;
           }
         });
         // 使用新对象替换旧对象以确保视图更新
-        this.configCircle = newConfigCircle;
+        this.configData = newConfigData;
       },
       deep: true, // 监听对象内部属性的变化
     },

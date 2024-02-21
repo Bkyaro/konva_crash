@@ -5,11 +5,12 @@
       v-for="(value, key, index) in dynamicValues"
       :key="index"
     >
-      <div v-if="value.show">
+      <div class="slider" v-if="value.show">
         <label>{{ key }}:</label>
         <input
           v-if="value.type == 'number'"
           type="range"
+          max="999"
           v-model.number="dynamicValues[key].value"
           @input="updateValue(key)"
         />
@@ -54,5 +55,10 @@ export default {
 .slider-container {
   display: flex;
   margin-bottom: 6px;
+}
+
+.slider {
+  display: flex;
+  gap: 8px;
 }
 </style>

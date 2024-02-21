@@ -49,6 +49,8 @@ export default {
         width: { value: 100, show: false, type: "number" },
         height: { value: 100, show: false, type: "number" },
         radius: { value: 70, show: false, type: "number" },
+        radiusX: { value: 70, show: false, type: "number" },
+        radiusY: { value: 70, show: false, type: "number" },
         stroke: { value: "black", show: false, type: "string" },
         strokeWidth: { value: 4, show: false, type: "number" },
         fill: { value: "blue", show: false, type: "string" },
