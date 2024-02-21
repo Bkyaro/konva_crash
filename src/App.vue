@@ -12,9 +12,15 @@
       </div>
     </div>
     <div class="preview">
-      <div class="left-code"><Debugger @update="handleParamUpdate" /></div>
+      <div class="left-code">
+        <Debugger @update="handleParamUpdate" :props="props" />
+      </div>
       <div class="right-view">
-        <component :is="targetComponent" :props="props"></component>
+        <component
+          :is="targetComponent"
+          :props="props"
+          @filterFromChild="filterFromChild"
+        ></component>
       </div>
     </div>
   </div>
@@ -37,12 +43,16 @@ export default {
         { id: 3, name: "EllipseShape", active: false },
       ],
       props: {
-        x: 50,
-        y: 120,
-        width: 100,
-        height: 100,
-        fill: "blue",
-        cornerRadius: [0, 10, 20, 30],
+        x: { value: 50, show: false, type: "number" },
+        y: { value: 120, show: false, type: "number" },
+        z: { value: 50, show: false, type: "number" },
+        width: { value: 100, show: false, type: "number" },
+        height: { value: 100, show: false, type: "number" },
+        radius: { value: 70, show: false, type: "number" },
+        stroke: { value: "black", show: false, type: "string" },
+        strokeWidth: { value: 4, show: false, type: "number" },
+        fill: { value: "blue", show: false, type: "string" },
+        cornerRadius: { value: [0, 10, 20, 30], show: false, type: "array" },
       },
     };
   },
@@ -55,10 +65,27 @@ export default {
   methods: {
     handleClick(e) {
       this.targetComponent = e.target.innerText.replace(" ", "");
+      // 重置props
+      const newProps = { ...this.props };
+      Object.keys(newProps).forEach((key) => {
+        newProps[key].show = false;
+      });
+      this.props = newProps;
     },
     handleParamUpdate(param) {
-      console.log("debugger component updated");
-      this.props = { ...this.props, ...param };
+      Object.keys(this.props).forEach((key) => {
+        if (param[key].show) {
+          this.props[key].value = param[key].value;
+        }
+      });
+    },
+    filterFromChild(filterParam) {
+      Object.keys(this.props).forEach((key) => {
+        if (filterParam[key]) {
+          this.props[key].show = true;
+          this.props[key].value = filterParam[key];
+        }
+      });
     },
   },
   watch: {

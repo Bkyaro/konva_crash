@@ -5,15 +5,21 @@
       v-for="(value, key, index) in dynamicValues"
       :key="index"
     >
-      <label>{{ key }}:</label>
-      <input
-        type="range"
-        min="0"
-        max="100"
-        v-model="dynamicValues[key]"
-        @input="updateValue(key)"
-      />
-      <span>{{ value }}</span>
+      <div v-if="value.show">
+        <label>{{ key }}:</label>
+        <input
+          v-if="value.type == 'number'"
+          type="range"
+          v-model.number="dynamicValues[key].value"
+          @input="updateValue(key)"
+        />
+        <input
+          v-if="value.type == 'string' || value.type == 'array'"
+          v-model="dynamicValues[key].value"
+          @input="updateValue(key)"
+        />
+        <span>{{ value.value }}</span>
+      </div>
     </div>
   </div>
 </template>
@@ -21,32 +27,14 @@
 <script>
 export default {
   name: "Debugger",
-  props: {
-    propX: {
-      type: Number,
-      default: 0,
-    },
-    propY: {
-      type: Number,
-      default: 0,
-    },
-    propZ: {
-      type: Number,
-      default: 0,
-    },
-  },
+  props: ["props"],
   data() {
     return {
-      dynamicValues: {
-        x: this.propX,
-        y: this.propY,
-        z: this.propZ,
-      },
+      dynamicValues: { ...this.props },
     };
   },
   methods: {
     updateValue(key) {
-      console.log("updating..", { ...this.dynamicValues });
       this.$emit("update", { ...this.dynamicValues });
     },
   },
@@ -58,7 +46,7 @@ export default {
   box-sizing: border-box;
   width: 100%;
   height: 100%;
-  background-color: pink;
+  background-color: #ded6d8;
   padding: 8px;
   border-radius: 8px;
 }
