@@ -54,10 +54,10 @@ export default {
 
 .slider-container {
   display: flex;
-  margin-bottom: 6px;
 }
 
 .slider {
+  margin-bottom: 6px;
   display: flex;
   gap: 8px;
 }
