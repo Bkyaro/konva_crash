@@ -66,13 +66,16 @@ export default {
   },
   methods: {
     handleClick(e) {
-      this.targetComponent = e.target.innerText.replace(" ", "");
-      // 重置props
-      const newProps = { ...this.props };
-      Object.keys(newProps).forEach((key) => {
-        newProps[key].show = false;
-      });
-      this.props = newProps;
+      const componentName = e.target.innerText.replace(" ", "");
+      if (componentName !== this.targetComponent) {
+        this.targetComponent = componentName;
+        // 重置props
+        const newProps = { ...this.props };
+        Object.keys(newProps).forEach((key) => {
+          newProps[key].show = false;
+        });
+        this.props = newProps;
+      }
     },
     handleParamUpdate(param) {
       Object.keys(this.props).forEach((key) => {
