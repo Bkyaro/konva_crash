@@ -117,7 +117,7 @@ body {
 }
 
 .tab-wrapper {
-  margin: 1rem 12rem;
+  margin: 8px 12px;
   display: flex;
   padding: 6px;
   gap: 1rem;
