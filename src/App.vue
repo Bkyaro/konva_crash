@@ -182,4 +182,15 @@ body {
   width: 100%;
   height: 100%;
 }
+
+@media screen and (max-width: 768px) {
+  .preview{
+    flex-direction: column
+  }
+  .left-code, .right-view{
+    width:100%;
+    height:unset;
+    display:block;
+  }
+}
 </style>
